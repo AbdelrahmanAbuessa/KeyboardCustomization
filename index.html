@@ -8,39 +8,92 @@
     </head>
     <body>
 
+        <div class="black_bg" hidden="false"></div>
+
+        <div class="presets_settings">
+            <div class="presets_content">
+                <div class="close_presets" id="close_presets">X</div>
+                <div class="presets_list" id="presets_list">
+                    <!-- Preset Preset -->
+                    <div class="preset" id="preset-1">
+                        <div class="preset_name">
+                            <div id="preset_number" class="preset_number">1-</div>
+                            <div class="name">Preset Name</div>
+                        </div>
+                        <div class="preset_section">
+                            <label for="select">Select Preset</label>
+                            <input type="radio" name="select" id="select">
+                        </div>
+                    </div>
+                    <!-- Preset Preset -->
+                    <div class="preset" id="preset-2">
+                        <div class="preset_name">
+                            <div id="preset_number" class="preset_number">2-</div>
+                            <div class="name">Preset Name</div>
+                        </div>
+                        <div class="preset_section">
+                            <label for="select">Select Preset</label>
+                            <input type="radio" name="select" id="select">
+                        </div>
+                    </div>
+                    <!-- Preset Preset -->
+                    <div class="preset" id="preset-3">
+                        <div class="preset_name">
+                            <div id="preset_number" class="preset_number">3-</div>
+                            <div class="name">Preset Name</div>
+                        </div>
+                        <div class="preset_section">
+                            <label for="select">Select Preset</label>
+                            <input type="radio" name="select" id="select">
+                        </div>
+                    </div>
+                </div>
+                <div id="save" preset-btn>Save Preset</div>
+                <div id="load" preset-btn>Load Preset</div>
+                <div id="del" preset-btn>Delete Preset</div>
+            </div>
+        </div>
+
         <!-- Main Structure -->
         <div class="settings">
             <div class="cont-title">
                 Settings
             </div>
             <div class="section">
+                <label for="base-ptrn">Base Pattern:</label>
+                <select name="base-ptrn" id="base-ptrn">
+                    <option value="single-base">Single Color</option>
+                    <option value="gradient-base">Gradient</option>
+                </select>
+            </div>
+            <div class="section" id="base-main">
                 <label for="base-clr-1">Base Color 1:</label>
                 <span id="base-clr-hex-1">#000000</span>
                 <input type="color" name="base-clr-1" id="base-clr-1">
             </div>
-            <div class="section">
+            <div class="section" id="base-secondary">
                 <label for="base-clr-2">Base Color 2:</label>
                 <span id="base-clr-hex-2">#000000</span>
                 <input type="color" name="base-clr-2" id="base-clr-2">
             </div>
             <div class="section">
+                <label for="key-ptrn">Keycap Pattern:</label>
+                <select name="key-ptrn" id="key-ptrn">
+                    <option value="single-key">Single Color</option>
+                    <option value="checkers-key">Checkers</option>
+                    <option value="wasd-key">W A S D</option>
+                    <option value="opt-key">Option Colors</option>
+                </select>
+            </div>
+            <div class="section" id="key-main">
                 <label for="key-clr-1">Key Color 1:</label>
                 <span id="key-clr-hex-1">#000000</span>
                 <input type="color" name="key-clr-1" id="key-clr-1">
             </div>
-            <div class="section">
+            <div class="section" id="key-secondary">
                 <label for="key-clr-2">Key Color 2:</label>
                 <span id="key-clr-hex-2">#000000</span>
                 <input type="color" name="key-clr-2" id="key-clr-2">
-            </div>
-            <div class="section">
-                <label for="txt-clr">Text Color:</label>
-                <span id="txt-clr-hex">#000000</span>
-                <input type="color" name="txt-clr" id="txt-clr">
-            </div>
-            <div class="section">
-                <label for="key-rnd">Key Roundness:</label>
-                <input type="number" name="key-rnd" id="key-rnd">
             </div>
             <div class="section">
                 <label for="layout">Layout</label>
@@ -50,7 +103,7 @@
                     <option value="60%">60%</option>
                 </select>
             </div>
-            <div class="section">
+            <!-- <div class="section">
                 <label for="preset">Presets</label>
                 <select name="preset" id="preset">
                     <option value="default-dark">Default-Dark</option>
@@ -60,7 +113,7 @@
                     <option value="gray">Gray</option>
                     <option value="satan">Satanic</option>
                 </select>
-            </div>
+            </div> -->
             <div btn="" id="manage">Manage Presets</div>
             <div btn="" id="random">Random</div>
         </div>

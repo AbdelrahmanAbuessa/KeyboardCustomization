@@ -263,3 +263,91 @@ option {
 [btn]:active {
     background-color: #88CAFC;
 }
+
+.black_bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.presets_settings {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.presets_content {
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.close_presets {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.close_presets:active {
+    background-color: black;
+}
+
+.preset {
+    width: 100%;
+    height: 50px;
+    border-bottom: 3px solid black;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 24px;
+}
+
+.preset_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+}
+
+.preset_name {
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preset_number {
+    width: 50px;
+}
+
+input[type="radio"] {
+    width: 30px;
+    height: 30px;
+}
+
+[preset-btn] {
+    
+}
+
+[hidden="true"] {
+    display: none;
+}
+
+[hidden="false"] {
+    display: block;
+}
