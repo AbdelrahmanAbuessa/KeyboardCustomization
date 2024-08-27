@@ -1,0 +1,77 @@
+@font-face {
+    font-family: HelloHeadline;
+    src: url(FontsFree-Net-Hello-Headline-W00-Regular.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: HelloHeadline;
+}
+
+body {
+    height: 100vh;
+    background-color: #88CAFC;
+}
+
+.title {
+    height: 15%;
+    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.main {
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyboard {
+    width: calc(435px * 2);
+    height: calc(167px * 2);
+    background-color: gray;
+    padding: 10px;
+}
+
+.essentials {
+    width: calc(calc(19px * 15 * 2)  + calc(2 * 15px));
+    height: 100%;
+}
+
+.function_bar {
+    width: 100%;
+    height: calc(19px * 2);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.key {
+    width: calc(19px * 2);
+    height: calc(19px * 2);
+    background-color: white;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 4px solid rgb(200, 200, 200);
+    border-top: 4px solid rgb(200, 200, 200);
+    border-right: 4px solid rgb(150, 150, 150);
+    border-bottom: 4px solid rgb(150, 150, 150);
+}
+
+.empty {
+    opacity: 0;
+}
+
+.main_keys {
+    width: 100%;
+    height: calc(100% - calc(19px * 2) - 8px);
+    background-color: white;
+}
