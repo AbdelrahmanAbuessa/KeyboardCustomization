@@ -275,10 +275,6 @@ option {
     width: 100%;
     height: 100%;
     position: absolute;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .presets_content {
@@ -287,6 +283,10 @@ option {
     background-color: white;
     padding: 20px;
     border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .close_presets {
@@ -341,7 +341,38 @@ input[type="radio"] {
 }
 
 [preset-btn] {
-    
+    width: 135px;
+    height: 35px;
+    background-color: lightblue;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.3s;
+    transition-property: width;
+    cursor: pointer;
+}
+
+.preset-btns {
+    width: 100%;
+    height: 100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    place-content: center;
+}
+
+[preset-btn]:hover {
+    width: 175px;
+}
+
+[preset-btn]:active {
+    background-color: blue;
+}
+
+input[type="text"] {
+    width: 150px;
+    font-size: 18px;
 }
 
 [hidden="true"] {

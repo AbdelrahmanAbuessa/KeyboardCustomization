@@ -8,14 +8,14 @@
     </head>
     <body>
 
-        <div class="black_bg" hidden="false"></div>
+        <div class="black_bg" hidden="false" id="black_bg"></div>
 
-        <div class="presets_settings">
+        <div class="presets_settings" id="presets_settings" hidden="false">
             <div class="presets_content">
                 <div class="close_presets" id="close_presets">X</div>
                 <div class="presets_list" id="presets_list">
                     <!-- Preset Preset -->
-                    <div class="preset" id="preset-1">
+                    <div class="preset" id="1">
                         <div class="preset_name">
                             <div id="preset_number" class="preset_number">1-</div>
                             <div class="name">Preset Name</div>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <!-- Preset Preset -->
-                    <div class="preset" id="preset-2">
+                    <div class="preset" id="2">
                         <div class="preset_name">
                             <div id="preset_number" class="preset_number">2-</div>
                             <div class="name">Preset Name</div>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <!-- Preset Preset -->
-                    <div class="preset" id="preset-3">
+                    <div class="preset" id="3">
                         <div class="preset_name">
                             <div id="preset_number" class="preset_number">3-</div>
                             <div class="name">Preset Name</div>
@@ -48,9 +48,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="save" preset-btn>Save Preset</div>
-                <div id="load" preset-btn>Load Preset</div>
-                <div id="del" preset-btn>Delete Preset</div>
+                <div class="preset-btns">
+                    <div id="save" preset-btn>Save Preset</div>
+                    <div id="load" preset-btn>Load Preset</div>
+                    <div id="del" preset-btn>Delete Preset</div>
+                </div>
             </div>
         </div>
 
@@ -62,8 +64,8 @@
             <div class="section">
                 <label for="base-ptrn">Base Pattern:</label>
                 <select name="base-ptrn" id="base-ptrn">
-                    <option value="single-base">Single Color</option>
-                    <option value="gradient-base">Gradient</option>
+                    <option value="single-color">Single Color</option>
+                    <option value="gradient-color">Gradient</option>
                 </select>
             </div>
             <div class="section" id="base-main">
@@ -103,6 +105,10 @@
                     <option value="60%">60%</option>
                 </select>
             </div>
+            <div class="section">
+                <label for="preset_name">Preset Name</label>
+                <input type="text" id="preset_name">
+            </div>
             <!-- <div class="section">
                 <label for="preset">Presets</label>
                 <select name="preset" id="preset">
@@ -126,7 +132,7 @@
 
             <div class="container">
 
-                <div class="keyboard">
+                <div class="keyboard" id="base">
     
                     <div class="essentials">
     
@@ -250,7 +256,7 @@
                         </div>
                     </div>
     
-                    <div class="numpad">
+                    <div class="numpad" id="tkl">
                         <div class="media_bar">
                             <div class="key">vol</div>
                             <div class="key">vol</div>
