@@ -10,10 +10,22 @@ let base_color_1_select = document.getElementById("base-clr-1");
 let base_color_2_select = document.getElementById("base-clr-2");
 let key_color_1_select = document.getElementById("key-clr-1");
 let key_color_2_select = document.getElementById("key-clr-2");
+let layout_select = document.getElementById("layout");
+let preset_name_select = document.getElementById("preset_name");
 
 let all_keys = document.querySelectorAll(".key");
-let wasd_keys = document.querySelectorAll(".wasd");
-let control_keys = document.querySelectorAll(".control");
+let wasd_keys_elements = document.querySelectorAll(".wasd");
+let control_keys_elements = document.querySelectorAll(".control");
+
+let wasd_keys = [];
+for (let i = 0; i < wasd_keys_elements.length; i++) {
+    wasd_keys.push(wasd_keys_elements[i]);
+}
+
+let control_keys = [];
+for (let i = 0; i < control_keys_elements.length; i++) {
+    control_keys.push(control_keys_elements[i]);
+}
 
 let base_pattern;
 let key_pattern;
@@ -21,6 +33,8 @@ let base_color_1;
 let base_color_2;
 let key_color_1;
 let key_color_2;
+let layout;
+let preset_name;
 
 let base = document.getElementById("base");
 let keys = document.querySelectorAll(".key");
@@ -35,10 +49,12 @@ base_pattern = "single-color";
 updateBaseColor(base_color_1, base_color_2);
 
 key_color_1 = "#ffffff";
-key_color_2 = "#000000";
+key_color_2 = "#ffffff";
 key_pattern = "single-key";
 updateKeyColor(key_color_1, key_color_2, key_pattern);
 
+layout = "full"
+editKeyboardLayout(layout);
 
 key_color_1_select.oninput = function () {
     key_color_1 = key_color_1_select.value;
@@ -64,6 +80,21 @@ base_color_2_select.oninput = function () {
     updateBaseColor(base_color_1, base_color_2, base_pattern);
 }
 
+layout_select.oninput = function () {
+    layout = layout_select.value;
+    editKeyboardLayout(layout);
+}
+
+function editKeyboardLayout(l) {
+    if (l === "full") {
+        console.log("full");
+    } else if (l === "TKL") {
+        console.log("TKL");
+    } else if (l === "60%") {
+        console.log("60%");
+    }
+}
+
 function updateBaseColor(b1, b2, pattern) {
     if (pattern === "gradient-color") {
         base.style.backgroundImage = `linear-gradient(90deg, ${b1}, ${b2})`;
@@ -76,39 +107,83 @@ function updateKeyColor(k1, k2, pattern) {
     if (pattern === "single-key") {
         all_keys.forEach(key => {
             key.style.backgroundColor = k1;
-            
+            key.style.borderTopColor = changeHex(k1, -35);
+            key.style.borderLeftColor = changeHex(k1, -35);
+            key.style.borderBottomColor = changeHex(k1, -75);
+            key.style.borderRightColor = changeHex(k1, -75);
         });
+    } else if (pattern === "checkers-key") {
+        for (let i = 0; i < all_keys.length; i++) {
+            if (i % 2 === 0) {
+                all_keys[i].style.backgroundColor = k1;
+                all_keys[i].style.borderTopColor = changeHex(k1, -35);
+                all_keys[i].style.borderLeftColor = changeHex(k1, -35);
+                all_keys[i].style.borderBottomColor = changeHex(k1, -75);
+                all_keys[i].style.borderRightColor = changeHex(k1, -75);
+            } else {
+                all_keys[i].style.backgroundColor = k2;
+                all_keys[i].style.borderTopColor = changeHex(k2, -35);
+                all_keys[i].style.borderLeftColor = changeHex(k2, -35);
+                all_keys[i].style.borderBottomColor = changeHex(k2, -75);
+                all_keys[i].style.borderRightColor = changeHex(k2, -75);
+            }
+        }
+    } else if (pattern === "wasd-key") {
+        for (let i = 0; i < all_keys.length; i++) {
+            if (wasd_keys.includes(all_keys[i])) {
+                all_keys[i].style.backgroundColor = k2;
+                all_keys[i].style.borderTopColor = changeHex(k2, -35);
+                all_keys[i].style.borderLeftColor = changeHex(k2, -35);
+                all_keys[i].style.borderBottomColor = changeHex(k2, -75);
+                all_keys[i].style.borderRightColor = changeHex(k2, -75);
+            } else {
+                all_keys[i].style.backgroundColor = k1;
+                all_keys[i].style.borderTopColor = changeHex(k1, -35);
+                all_keys[i].style.borderLeftColor = changeHex(k1, -35);
+                all_keys[i].style.borderBottomColor = changeHex(k1, -75);
+                all_keys[i].style.borderRightColor = changeHex(k1, -75);
+            }
+        }
+    } else if (pattern === "opt-key") {
+        for (let i = 0; i < all_keys.length; i++) {
+            if (control_keys.includes(all_keys[i])) {
+                all_keys[i].style.backgroundColor = k2;
+                all_keys[i].style.borderTopColor = changeHex(k2, -35);
+                all_keys[i].style.borderLeftColor = changeHex(k2, -35);
+                all_keys[i].style.borderBottomColor = changeHex(k2, -75);
+                all_keys[i].style.borderRightColor = changeHex(k2, -75);
+            } else {
+                all_keys[i].style.backgroundColor = k1;
+                all_keys[i].style.borderTopColor = changeHex(k1, -35);
+                all_keys[i].style.borderLeftColor = changeHex(k1, -35);
+                all_keys[i].style.borderBottomColor = changeHex(k1, -75);
+                all_keys[i].style.borderRightColor = changeHex(k1, -75);
+            }
+        }
     }
 }
 
-function hexToHSL(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      r = parseInt(result[1], 16);
-      g = parseInt(result[2], 16);
-      b = parseInt(result[3], 16);
-      r /= 255, g /= 255, b /= 255;
-      var max = Math.max(r, g, b), min = Math.min(r, g, b);
-      var h, s, l = (max + min) / 2;
-      if(max == min){
-        h = s = 0; // achromatic
-      }else{
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-      }
-    var HSL = new Object();
-    HSL['h']=h;
-    HSL['s']=s;
-    HSL['l']=l;
-    return HSL;
+function hexToRgb(hex) {
+    hex = hex.replace(/^#/, "");
+    let bigint = parseInt(hex, 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+    return { r, g, b };
 }
-
-// Base Pattern Menu Selection Color Settings
+  
+function rgbToHex(r, g, b) {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+}
+  
+function changeHex(hex, d) {
+    let { r, g, b } = hexToRgb(hex);
+    r = Math.min(255, Math.max(0, r + d));
+    g = Math.min(255, Math.max(0, g + d));
+    b = Math.min(255, Math.max(0, b + d));
+    return rgbToHex(r, g, b);
+}
+  
 base_pattern_menu.oninput = function () {
     base_pattern = base_pattern_menu.value;
     if (base_pattern === "single-color") {
@@ -119,7 +194,6 @@ base_pattern_menu.oninput = function () {
     updateBaseColor(base_color_1, base_color_2, base_pattern);
 };
 
-// Key Pattern Menu Selection Color Settings
 key_pattern_menu.oninput = function () {
     key_pattern = key_pattern_menu.value;
     if (key_pattern === "single-key") {
@@ -129,7 +203,6 @@ key_pattern_menu.oninput = function () {
     }
 };
 
-// Presets Menu Layover Settings
 let bg = document.getElementById("black_bg");
 let presets_settings = document.getElementById("presets_settings");
 
