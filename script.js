@@ -19,6 +19,8 @@ let all_keys = document.querySelectorAll(".key");
 let wasd_keys_elements = document.querySelectorAll(".wasd");
 let control_keys_elements = document.querySelectorAll(".control");
 
+let selected_preset;
+
 let wasd_keys = [];
 for (let i = 0; i < wasd_keys_elements.length; i++) {
     wasd_keys.push(wasd_keys_elements[i]);
@@ -255,10 +257,47 @@ document.addEventListener("click", function (e) {
     } else if (targetElement.id === "manage") {
         bg.setAttribute("hidden", "false");
         presets_settings.setAttribute("hidden", "false");
+        displayPresets();
     } else if (targetElement.id === "save") {
         createPreset();
+        displayPresets();
+        bg.setAttribute("hidden", "true");
+        presets_settings.setAttribute("hidden", "true");
+    } else if (targetElement.id === "del") {
+        deletePreset(selected_preset);
+        displayPresets();
+        bg.setAttribute("hidden", "true");
+        presets_settings.setAttribute("hidden", "true");
+    } else if (targetElement.id === "load") {
+        loadPreset(selected_preset);
+    } else if (targetElement.getAttribute("type") === "radio") {
+        selected_preset = targetElement.id - 1;
     }
 })
+
+function displayPresets() {
+    preset_list_menu.innerHTML = "";
+
+    for (let i = 0; i < all_presets.length; i++) {
+        let preset = document.createElement("div");
+        preset.id = i;
+        preset.className = "preset";
+        preset.innerHTML = 
+        `
+            <div class="preset" id="${i + 1}">
+                <div class="preset_name">
+                    <div id="preset_number" class="preset_number">${i + 1}-</div>
+                    <div class="name">${all_presets[i].name_preset}</div>
+                </div>
+                <div class="preset_section">
+                    <label for="select">Select Preset</label>
+                    <input type="radio" name="select" id="${i + 1}">
+                </div>
+            </div>
+        ` 
+        preset_list_menu.appendChild(preset);
+    }
+}
 
 function createPreset() {
     let preset = new Object({
@@ -272,23 +311,51 @@ function createPreset() {
         layout_preset: layout,
     })
     all_presets.push(preset);
+}
 
-    preset_list_menu.innerHTML = "";
+function deletePreset(id) {
+    all_presets.splice(id, 1);
+    displayPresets();
+}
 
-    for (let i = 0; i < all_presets.length; i++) {
-        preset.innerHTML = 
-        `
-            <div class="preset" id="${i}">
-                <div class="preset_name">
-                    <div id="preset_number" class="preset_number">${i}-</div>
-                    <div class="name">Preset Name</div>
-                </div>
-                <div class="preset_section">
-                    <label for="select">Select Preset</label>
-                    <input type="radio" name="select" id="select-${i}">
-                </div>
-            </div>
-        ` 
-        preset_list_menu.appendChild(preset.innerHTML);
+function loadPreset(id) {
+    if (id === undefined) {
+        alert("Please Select A Preset To Load");
+    } else {
+        bg.setAttribute("hidden", "true");
+        presets_settings.setAttribute("hidden", "true");
+        preset_name = all_presets[id].name_preset;
+        preset_name_select.value = all_presets[id].name_preset;
+        base_pattern = all_presets[id].base_pattern_preset;
+        base_pattern_menu.value = all_presets[id].base_pattern_preset;
+        key_pattern = all_presets[id].key_pattern_preset;
+        key_pattern_menu.value = all_presets[id].key_pattern_preset;
+        base_color_1 = all_presets[id].base_color_1_preset;
+        base_color_1_txt.value = all_presets[id].base_color_1_preset;
+        base_color_1_select.value = all_presets[id].base_color_1_preset;
+        base_color_2 = all_presets[id].base_color_2_preset;
+        base_color_2_txt.value = all_presets[id].base_color_2_preset;
+        base_color_2_select.value = all_presets[id].base_color_2_preset;
+        key_color_1 = all_presets[id].key_color_1_preset;
+        key_color_1_txt.value = all_presets[id].key_color_1_preset;
+        key_color_1_select.value = all_presets[id].key_color_1_preset;
+        key_color_2 = all_presets[id].key_color_2_preset;
+        key_color_2_txt.value = all_presets[id].key_color_2_preset;
+        key_color_2_select.value = all_presets[id].key_color_2_preset;
+        layout = all_presets[id].layout_preset;
+        layout_select.value = all_presets[id].layout_preset;
+        if (base_pattern === "single-color") {
+            base_color_2_group.style.display = "none";
+        } else {
+            base_color_2_group.style.display = "flex";
+        }
+        if (key_pattern === "single-key") {
+            key_color_2_group.style.display = "none";
+        } else {
+            key_color_2_group.style.display = "flex";
+        }
+        updateBaseColor(base_color_1, base_color_2, base_pattern);
+        updateKeyColor(key_color_1, key_color_2, key_pattern);
+        editKeyboardLayout(layout);
     }
 }
