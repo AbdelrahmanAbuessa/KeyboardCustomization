@@ -1,3 +1,4 @@
+let base = document.getElementById("base");
 let base_color_2_group = document.getElementById("base-secondary");
 let key_color_2_group = document.getElementById("key-secondary");
 let base_color_1_txt = document.getElementById("base-clr-hex-1");
@@ -12,6 +13,7 @@ let key_color_1_select = document.getElementById("key-clr-1");
 let key_color_2_select = document.getElementById("key-clr-2");
 let layout_select = document.getElementById("layout");
 let preset_name_select = document.getElementById("preset_name");
+let preset_list_menu = document.getElementById("presets_list");
 
 let all_keys = document.querySelectorAll(".key");
 let wasd_keys_elements = document.querySelectorAll(".wasd");
@@ -36,9 +38,11 @@ let key_color_2;
 let layout;
 let preset_name;
 
-let base = document.getElementById("base");
-let keys = document.querySelectorAll(".key");
+let all_presets = [];
+
 let tkl_group = document.getElementById("tkl");
+let function_row = document.getElementById("f69");
+let functionality_group = document.getElementById("function");
 
 base_color_2_group.style.display = "none";
 key_color_2_group.style.display = "none";
@@ -46,7 +50,7 @@ key_color_2_group.style.display = "none";
 base_color_1 = "#000000";
 base_color_2 = "#000000";
 base_pattern = "single-color";
-updateBaseColor(base_color_1, base_color_2);
+updateBaseColor(base_color_1, base_color_2, base_pattern);
 
 key_color_1 = "#ffffff";
 key_color_2 = "#ffffff";
@@ -55,6 +59,10 @@ updateKeyColor(key_color_1, key_color_2, key_pattern);
 
 layout = "full"
 editKeyboardLayout(layout);
+
+preset_name_select.oninput = function () {
+    preset_name = preset_name_select.value;
+}
 
 key_color_1_select.oninput = function () {
     key_color_1 = key_color_1_select.value;
@@ -87,20 +95,42 @@ layout_select.oninput = function () {
 
 function editKeyboardLayout(l) {
     if (l === "full") {
-        console.log("full");
+        tkl_group.style.display = "block";
+        function_row.style.display = "flex";
+        functionality_group.style.display = "flex";
+        base.style.width = "calc(459px * 2)";
+        base.style.height = "calc(128px * 2)";
     } else if (l === "TKL") {
-        console.log("TKL");
+        tkl_group.style.display = "none";
+        function_row.style.display = "flex";
+        functionality_group.style.display = "flex";
+        base.style.width = "calc(375px * 2)";
+        base.style.height = "calc(128px * 2)";
     } else if (l === "60%") {
-        console.log("60%");
+        tkl_group.style.display = "none";
+        function_row.style.display = "none";
+        functionality_group.style.display = "none";
+        base.style.width = "calc(300px * 2)";
+        base.style.height = "calc(105px * 2)";
     }
 }
 
 function updateBaseColor(b1, b2, pattern) {
     if (pattern === "gradient-color") {
         base.style.backgroundImage = `linear-gradient(90deg, ${b1}, ${b2})`;
+        base.style.backgroundColor = `none`;
     } else {
         base.style.backgroundColor = b1;
+        base.style.backgroundImage = `none`;
     }
+}
+
+function getContrastYIQ(hexcolor){
+    let r = parseInt(hexcolor.substring(1,3),16);
+    let g = parseInt(hexcolor.substring(3,5),16);
+    let b = parseInt(hexcolor.substring(5,7),16);
+    let yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? 'black' : 'white';
 }
 
 function updateKeyColor(k1, k2, pattern) {
@@ -111,6 +141,7 @@ function updateKeyColor(k1, k2, pattern) {
             key.style.borderLeftColor = changeHex(k1, -35);
             key.style.borderBottomColor = changeHex(k1, -75);
             key.style.borderRightColor = changeHex(k1, -75);
+            key.style.color = getContrastYIQ(k1);
         });
     } else if (pattern === "checkers-key") {
         for (let i = 0; i < all_keys.length; i++) {
@@ -120,12 +151,14 @@ function updateKeyColor(k1, k2, pattern) {
                 all_keys[i].style.borderLeftColor = changeHex(k1, -35);
                 all_keys[i].style.borderBottomColor = changeHex(k1, -75);
                 all_keys[i].style.borderRightColor = changeHex(k1, -75);
+                all_keys[i].style.color = getContrastYIQ(k1);
             } else {
                 all_keys[i].style.backgroundColor = k2;
                 all_keys[i].style.borderTopColor = changeHex(k2, -35);
                 all_keys[i].style.borderLeftColor = changeHex(k2, -35);
                 all_keys[i].style.borderBottomColor = changeHex(k2, -75);
                 all_keys[i].style.borderRightColor = changeHex(k2, -75);
+                all_keys[i].style.color = getContrastYIQ(k2);
             }
         }
     } else if (pattern === "wasd-key") {
@@ -136,12 +169,14 @@ function updateKeyColor(k1, k2, pattern) {
                 all_keys[i].style.borderLeftColor = changeHex(k2, -35);
                 all_keys[i].style.borderBottomColor = changeHex(k2, -75);
                 all_keys[i].style.borderRightColor = changeHex(k2, -75);
+                all_keys[i].style.color = getContrastYIQ(k2);
             } else {
                 all_keys[i].style.backgroundColor = k1;
                 all_keys[i].style.borderTopColor = changeHex(k1, -35);
                 all_keys[i].style.borderLeftColor = changeHex(k1, -35);
                 all_keys[i].style.borderBottomColor = changeHex(k1, -75);
                 all_keys[i].style.borderRightColor = changeHex(k1, -75);
+                all_keys[i].style.color = getContrastYIQ(k1);
             }
         }
     } else if (pattern === "opt-key") {
@@ -152,12 +187,14 @@ function updateKeyColor(k1, k2, pattern) {
                 all_keys[i].style.borderLeftColor = changeHex(k2, -35);
                 all_keys[i].style.borderBottomColor = changeHex(k2, -75);
                 all_keys[i].style.borderRightColor = changeHex(k2, -75);
+                all_keys[i].style.color = getContrastYIQ(k2);
             } else {
                 all_keys[i].style.backgroundColor = k1;
                 all_keys[i].style.borderTopColor = changeHex(k1, -35);
                 all_keys[i].style.borderLeftColor = changeHex(k1, -35);
                 all_keys[i].style.borderBottomColor = changeHex(k1, -75);
                 all_keys[i].style.borderRightColor = changeHex(k1, -75);
+                all_keys[i].style.color = getContrastYIQ(k1);
             }
         }
     }
@@ -201,6 +238,7 @@ key_pattern_menu.oninput = function () {
     } else {
         key_color_2_group.style.display = "flex";
     }
+    updateKeyColor(key_color_1, key_color_2, key_pattern);
 };
 
 let bg = document.getElementById("black_bg");
@@ -217,5 +255,40 @@ document.addEventListener("click", function (e) {
     } else if (targetElement.id === "manage") {
         bg.setAttribute("hidden", "false");
         presets_settings.setAttribute("hidden", "false");
+    } else if (targetElement.id === "save") {
+        createPreset();
     }
 })
+
+function createPreset() {
+    let preset = new Object({
+        name_preset: preset_name,
+        base_pattern_preset: base_pattern,
+        key_pattern_preset: key_pattern,
+        base_color_1_preset: base_color_1,
+        base_color_2_preset: base_color_2,
+        key_color_1_preset: key_color_1,
+        key_color_2_preset: key_color_2,
+        layout_preset: layout,
+    })
+    all_presets.push(preset);
+
+    preset_list_menu.innerHTML = "";
+
+    for (let i = 0; i < all_presets.length; i++) {
+        preset.innerHTML = 
+        `
+            <div class="preset" id="${i}">
+                <div class="preset_name">
+                    <div id="preset_number" class="preset_number">${i}-</div>
+                    <div class="name">Preset Name</div>
+                </div>
+                <div class="preset_section">
+                    <label for="select">Select Preset</label>
+                    <input type="radio" name="select" id="select-${i}">
+                </div>
+            </div>
+        ` 
+        preset_list_menu.appendChild(preset.innerHTML);
+    }
+}
