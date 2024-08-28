@@ -42,6 +42,79 @@ let preset_name;
 
 let all_presets = [];
 
+let Default_Dark_Preset = new Object({
+    name_preset: "Default_Dark",
+    base_pattern_preset: "single-color",
+    key_pattern_preset: "opt-key",
+    base_color_1_preset: "#000000",
+    base_color_2_preset: "#000000",
+    key_color_1_preset: "#ffffff",
+    key_color_2_preset: "#1a1a1a",
+    layout_preset: "full",
+})
+
+let Default_Light_Preset = new Object({
+    name_preset: "Default_Light",
+    base_pattern_preset: "single-color",
+    key_pattern_preset: "opt-key",
+    base_color_1_preset: "#ffffff",
+    base_color_2_preset: "#000000",
+    key_color_1_preset: "#ffffff",
+    key_color_2_preset: "#d0ccc0",
+    layout_preset: "full",
+})
+
+let Full_Dark_Preset = new Object({
+    name_preset: "Full_Dark",
+    base_pattern_preset: "single-color",
+    key_pattern_preset: "single-key",
+    base_color_1_preset: "#000000",
+    base_color_2_preset: "#000000",
+    key_color_1_preset: "#1a1a1a",
+    key_color_2_preset: "#000000",
+    layout_preset: "full",
+})
+
+let Full_Light_Preset = new Object({
+    name_preset: "Full_Light",
+    base_pattern_preset: "single-color",
+    key_pattern_preset: "single-key",
+    base_color_1_preset: "#ffffff",
+    base_color_2_preset: "#000000",
+    key_color_1_preset: "#d0ccc0",
+    key_color_2_preset: "#000000",
+    layout_preset: "full",
+})
+
+let Gray_Preset = new Object({
+    name_preset: "Gray",
+    base_pattern_preset: "single-color",
+    key_pattern_preset: "single-key",
+    base_color_1_preset: "#373534",
+    base_color_2_preset: "#000000",
+    key_color_1_preset: "#96938E",
+    key_color_2_preset: "#000000",
+    layout_preset: "full",
+})
+
+let Satan_Preset = new Object({
+    name_preset: "Satanic",
+    base_pattern_preset: "single-color",
+    key_pattern_preset: "single-key",
+    base_color_1_preset: "#ff0000",
+    base_color_2_preset: "#000000",
+    key_color_1_preset: "#C9282D",
+    key_color_2_preset: "#000000",
+    layout_preset: "full",
+})
+
+all_presets.push(Default_Dark_Preset);
+all_presets.push(Default_Light_Preset);
+all_presets.push(Full_Dark_Preset);
+all_presets.push(Full_Light_Preset);
+all_presets.push(Gray_Preset);
+all_presets.push(Satan_Preset);
+
 let tkl_group = document.getElementById("tkl");
 let function_row = document.getElementById("f69");
 let functionality_group = document.getElementById("function");
@@ -270,10 +343,85 @@ document.addEventListener("click", function (e) {
         presets_settings.setAttribute("hidden", "true");
     } else if (targetElement.id === "load") {
         loadPreset(selected_preset);
+    } else if (targetElement.id === "random") {
+        randomize();
     } else if (targetElement.getAttribute("type") === "radio") {
         selected_preset = targetElement.id - 1;
     }
 })
+
+let random;
+
+function randomize() {
+    if (Math.round(Math.random()) === 0) {
+        base_pattern = "single-color";
+        base_pattern_menu.value = "single-color";
+    } else {
+        base_pattern = "gradient-color";
+        base_pattern_menu.value = "gradient-color";
+    }
+    
+    random = Math.floor(Math.random() * 100);
+    if (random < 25) {
+        key_pattern = "single-key";
+        key_pattern_menu.value = "single-key";
+    } else if (random >= 25 && random < 50) {
+        key_pattern = "checkers-key";
+        key_pattern_menu.value = "checkers-key";
+    } else if (random >= 50 && random < 75) {
+        key_pattern = "wasd-key";
+        key_pattern_menu.value = "wasd-key";
+    } else if (random >= 75 && random <= 100) {
+        key_pattern = "opt-key";
+        key_pattern_menu.value = "opt-key";
+    }
+
+    random = Math.floor(Math.random() * 1000000);
+    base_color_1 = `#${random}`;
+    base_color_1_txt.innerText = `#${random}`;
+    base_color_1_select.value = `#${random}`;
+
+    random = Math.floor(Math.random() * 1000000);
+    base_color_2 = `#${random}`;
+    base_color_2_txt.innerText = `#${random}`;
+    base_color_2_select.value = `#${random}`;
+    
+    random = Math.floor(Math.random() * 1000000);
+    key_color_1 = `#${random}`;
+    key_color_1_txt.innerText = `#${random}`;
+    key_color_1_select.value = `#${random}`;
+    
+    random = Math.floor(Math.random() * 1000000);
+    key_color_2 = `#${random}`;
+    key_color_2_txt.innerText = `#${random}`;
+    key_color_2_select.value = `#${random}`;
+
+    random = Math.floor(Math.random() * 9);
+    if (random < 3) {
+        layout = "full";
+        layout_select.value = "full";
+    } else if (random >= 3 && random < 6) {
+        layout = "TKL";
+        layout_select.value = "TKL";
+    } else if (random >= 6 && random <= 9) {
+        layout = "60%";
+        layout_select.value = "60%";
+    }
+
+    if (base_pattern === "single-color") {
+        base_color_2_group.style.display = "none";
+    } else {
+        base_color_2_group.style.display = "flex";
+    }
+    if (key_pattern === "single-key") {
+        key_color_2_group.style.display = "none";
+    } else {
+        key_color_2_group.style.display = "flex";
+    }
+    updateBaseColor(base_color_1, base_color_2, base_pattern);
+    updateKeyColor(key_color_1, key_color_2, key_pattern);
+    editKeyboardLayout(layout);
+}
 
 function displayPresets() {
     preset_list_menu.innerHTML = "";
@@ -331,16 +479,16 @@ function loadPreset(id) {
         key_pattern = all_presets[id].key_pattern_preset;
         key_pattern_menu.value = all_presets[id].key_pattern_preset;
         base_color_1 = all_presets[id].base_color_1_preset;
-        base_color_1_txt.value = all_presets[id].base_color_1_preset;
+        base_color_1_txt.innerText = all_presets[id].base_color_1_preset;
         base_color_1_select.value = all_presets[id].base_color_1_preset;
         base_color_2 = all_presets[id].base_color_2_preset;
-        base_color_2_txt.value = all_presets[id].base_color_2_preset;
+        base_color_2_txt.innerText = all_presets[id].base_color_2_preset;
         base_color_2_select.value = all_presets[id].base_color_2_preset;
         key_color_1 = all_presets[id].key_color_1_preset;
-        key_color_1_txt.value = all_presets[id].key_color_1_preset;
+        key_color_1_txt.innerText = all_presets[id].key_color_1_preset;
         key_color_1_select.value = all_presets[id].key_color_1_preset;
         key_color_2 = all_presets[id].key_color_2_preset;
-        key_color_2_txt.value = all_presets[id].key_color_2_preset;
+        key_color_2_txt.innerText = all_presets[id].key_color_2_preset;
         key_color_2_select.value = all_presets[id].key_color_2_preset;
         layout = all_presets[id].layout_preset;
         layout_select.value = all_presets[id].layout_preset;
@@ -359,3 +507,5 @@ function loadPreset(id) {
         editKeyboardLayout(layout);
     }
 }
+
+loadPreset(0);
