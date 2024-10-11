@@ -2,6 +2,8 @@
 ## Access the Live Demo through the link below:
 https://abdelrahmanabuessa.github.io/KeyboardCustomization/
 
+***Note: This project is experimental and isn't intended to be considered professional work.***
+
 ![image](https://github.com/user-attachments/assets/0139fae9-ba97-45a0-8910-68d7a65955fd)
 
 If you have ever wanted to customize a keyboard but never got the chance to do so
